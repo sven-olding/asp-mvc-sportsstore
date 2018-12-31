@@ -17,6 +17,7 @@ namespace SportsStore.WebUI.Infrastructure
         public NinjectDependencyResolver(IKernel kernelParam)
         {
             kernel = kernelParam;
+            AddBindings();
         }
 
         public object GetService(Type serviceType)
