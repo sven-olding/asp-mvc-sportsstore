@@ -21,7 +21,6 @@ namespace SportsStore.WebUI.HtmlHelpers
                     tag.AddCssClass("btn-primary");
                 }
                 tag.AddCssClass("btn btn-default");
-                // test
                 result.Append(tag.ToString());
             }
             return MvcHtmlString.Create(result.ToString());
