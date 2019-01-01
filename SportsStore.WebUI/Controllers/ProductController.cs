@@ -1,8 +1,6 @@
 ﻿using SportsStore.Domain.Abstract;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace SportsStore.WebUI.Controllers
@@ -22,7 +20,7 @@ namespace SportsStore.WebUI.Controllers
         {
             return View(productRepository.Products
                 .OrderBy(p => p.ProductID)
-                .Skip((page-1) * PageSize)
+                .Skip((page - 1) * PageSize)
                 .Take(PageSize));
         }
     }
