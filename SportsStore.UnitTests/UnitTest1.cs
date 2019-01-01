@@ -28,12 +28,14 @@ namespace SportsStore.UnitTests
                 new Product {ProductID = 4, Name = "P4"},
                 new Product {ProductID = 5, Name = "P5"}
             });
-            ProductController controller = new ProductController(mock.Object);
-            controller.PageSize = 3;
+            ProductController controller = new ProductController(mock.Object)
+            {
+                PageSize = 3
+            };
             // act
-            var result = (IEnumerable<Product>)controller.List(2).Model;
+            var result = (ProductsListViewModel)controller.List(2).Model;
             // assert
-            Product[] prodArray = result.ToArray();
+            Product[] prodArray = result.Products.ToArray();
             Assert.IsTrue(prodArray.Length == 2);
             Assert.AreEqual(prodArray[0].Name, "P4");
             Assert.AreEqual(prodArray[1].Name, "P5");
@@ -59,6 +61,33 @@ namespace SportsStore.UnitTests
                           + @"<a class=""btn btn-default"" href=""Page3"">3</a>"
                             , result.ToString());
 
+        }
+
+        [TestMethod]
+        public void Can_Send_Pagination_View_Model()
+        {
+            // arrange 
+            Mock<IProductRepository> mock = new Mock<IProductRepository>();
+            mock.Setup(m => m.Products).Returns(new Product[]
+            {
+                new Product {ProductID = 1, Name = "P1"},
+                new Product {ProductID = 2, Name = "P2"},
+                new Product {ProductID = 3, Name = "P3"},
+                new Product {ProductID = 4, Name = "P4"},
+                new Product {ProductID = 5, Name = "P5"}
+            });
+            ProductController controller = new ProductController(mock.Object)
+            {
+                PageSize = 3
+            };
+            // act
+            ProductsListViewModel result = (ProductsListViewModel)controller.List(2).Model;
+            // assert
+            PagingInfo pagingInfo = result.PagingInfo;
+            Assert.AreEqual(pagingInfo.CurrentPage, 2);
+            Assert.AreEqual(pagingInfo.ItemsPerPage, 3);
+            Assert.AreEqual(pagingInfo.TotalItems, 5);
+            Assert.AreEqual(pagingInfo.TotalPages, 2);
         }
     }
 }
