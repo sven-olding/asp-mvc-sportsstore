@@ -5,16 +5,7 @@
 
 @foreach (var p in Model.Products)
 {
-    <div class="card mt-3">
-        <div class="card-header">
-            @p.Name
-        </div>
-
-        <div class="card-body">
-            <p class="card-text">@p.Description</p>
-            <span class="float-right badge badge-primary">@p.Price.ToString("c")</span>
-        </div>
-    </div>
+    @Html.Partial("ProductSummary", p)
 }
 <div class="mt-3 btn-group float-right">
     @Html.PageLinks(Model.PagingInfo, x => Url.Action("List", new { page = x }))
