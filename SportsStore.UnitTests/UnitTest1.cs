@@ -56,9 +56,9 @@ namespace SportsStore.UnitTests
             // act
             MvcHtmlString result = myHelper.PageLinks(pagingInfo, pageUrlDelegate);
             // assert
-            Assert.AreEqual(@"<a class=""btn btn-default"" href=""Page1"">1</a>"
-                          + @"<a class=""btn btn-default btn-primary selected"" href=""Page2"">2</a>"
-                          + @"<a class=""btn btn-default"" href=""Page3"">3</a>"
+            Assert.AreEqual(@"<a class=""btn-secondary btn"" href=""Page1"">1</a>"
+                          + @"<a class=""btn-primary btn"" href=""Page2"">2</a>"
+                          + @"<a class=""btn-secondary btn"" href=""Page3"">3</a>"
                             , result.ToString());
 
         }
