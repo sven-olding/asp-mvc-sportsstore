@@ -33,7 +33,7 @@ namespace SportsStore.UnitTests
                 PageSize = 3
             };
             // act
-            var result = (ProductsListViewModel)controller.List(2).Model;
+            var result = (ProductsListViewModel)controller.List(null, 2).Model;
             // assert
             Product[] prodArray = result.Products.ToArray();
             Assert.IsTrue(prodArray.Length == 2);
@@ -81,13 +81,41 @@ namespace SportsStore.UnitTests
                 PageSize = 3
             };
             // act
-            ProductsListViewModel result = (ProductsListViewModel)controller.List(2).Model;
+            ProductsListViewModel result = (ProductsListViewModel)controller.List(null, 2).Model;
             // assert
             PagingInfo pagingInfo = result.PagingInfo;
             Assert.AreEqual(pagingInfo.CurrentPage, 2);
             Assert.AreEqual(pagingInfo.ItemsPerPage, 3);
             Assert.AreEqual(pagingInfo.TotalItems, 5);
             Assert.AreEqual(pagingInfo.TotalPages, 2);
+        }
+
+        [TestMethod]
+        public void Can_Filter_Products()
+        {
+            // arrange 
+            Mock<IProductRepository> mock = new Mock<IProductRepository>();
+            mock.Setup(m => m.Products).Returns(new Product[]
+            {
+                new Product {ProductID = 1, Name = "P1", Category = "Cat1"},
+                new Product {ProductID = 2, Name = "P2", Category = "Cat1"},
+                new Product {ProductID = 3, Name = "P3", Category = "Cat2"},
+                new Product {ProductID = 4, Name = "P4", Category = "Cat2"},
+                new Product {ProductID = 5, Name = "P5", Category = "Cat3" }
+            });
+            ProductController controller = new ProductController(mock.Object)
+            {
+                PageSize = 2
+            };
+            // act
+            ProductsListViewModel result = (ProductsListViewModel)controller.List("Cat2", 1).Model;
+            // assert 
+            Assert.AreEqual(result.CurrentCategory, "Cat2");
+            Assert.AreEqual(result.Products.ToArray().Length, 2);
+            Assert.AreEqual(result.Products.ElementAt(0).Name, "P3");
+            Assert.AreEqual(result.Products.ElementAt(0).Category, "Cat2");
+            Assert.AreEqual(result.Products.ElementAt(1).Name, "P4");
+            Assert.AreEqual(result.Products.ElementAt(1).Category, "Cat2");
         }
     }
 }
