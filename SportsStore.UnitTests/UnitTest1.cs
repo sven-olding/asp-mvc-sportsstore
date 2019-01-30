@@ -19,15 +19,7 @@ namespace SportsStore.UnitTests
         public void Can_Paginate()
         {
             // arrange
-            Mock<IProductRepository> mock = new Mock<IProductRepository>();
-            mock.Setup(m => m.Products).Returns(new Product[]
-            {
-                new Product {ProductID = 1, Name = "P1"},
-                new Product {ProductID = 2, Name = "P2"},
-                new Product {ProductID = 3, Name = "P3"},
-                new Product {ProductID = 4, Name = "P4"},
-                new Product {ProductID = 5, Name = "P5"}
-            });
+            Mock<IProductRepository> mock = getMockProductRepository();
             ProductController controller = new ProductController(mock.Object)
             {
                 PageSize = 3
@@ -67,15 +59,7 @@ namespace SportsStore.UnitTests
         public void Can_Send_Pagination_View_Model()
         {
             // arrange 
-            Mock<IProductRepository> mock = new Mock<IProductRepository>();
-            mock.Setup(m => m.Products).Returns(new Product[]
-            {
-                new Product {ProductID = 1, Name = "P1"},
-                new Product {ProductID = 2, Name = "P2"},
-                new Product {ProductID = 3, Name = "P3"},
-                new Product {ProductID = 4, Name = "P4"},
-                new Product {ProductID = 5, Name = "P5"}
-            });
+            Mock<IProductRepository> mock = getMockProductRepository();
             ProductController controller = new ProductController(mock.Object)
             {
                 PageSize = 3
@@ -94,15 +78,7 @@ namespace SportsStore.UnitTests
         public void Can_Filter_Products()
         {
             // arrange 
-            Mock<IProductRepository> mock = new Mock<IProductRepository>();
-            mock.Setup(m => m.Products).Returns(new Product[]
-            {
-                new Product {ProductID = 1, Name = "P1", Category = "Cat1"},
-                new Product {ProductID = 2, Name = "P2", Category = "Cat1"},
-                new Product {ProductID = 3, Name = "P3", Category = "Cat2"},
-                new Product {ProductID = 4, Name = "P4", Category = "Cat2"},
-                new Product {ProductID = 5, Name = "P5", Category = "Cat3" }
-            });
+            Mock<IProductRepository> mock = getMockProductRepository();
             ProductController controller = new ProductController(mock.Object)
             {
                 PageSize = 2
@@ -116,6 +92,49 @@ namespace SportsStore.UnitTests
             Assert.AreEqual(result.Products.ElementAt(0).Category, "Cat2");
             Assert.AreEqual(result.Products.ElementAt(1).Name, "P4");
             Assert.AreEqual(result.Products.ElementAt(1).Category, "Cat2");
+        }
+
+        [TestMethod]
+        public void Can_Create_Categories()
+        {
+            // arrange
+            Mock<IProductRepository> mock = getMockProductRepository();
+            NavController nav = new NavController(mock.Object);
+            // act
+            string[] results = ((IEnumerable<string>)nav.Menu(null).Model).ToArray();
+            // assert
+            Assert.AreEqual(results.Length, 3);
+            Assert.AreEqual(results[0], "Cat1");
+            Assert.AreEqual(results[1], "Cat2");
+            Assert.AreEqual(results[2], "Cat3");
+        }
+
+        [TestMethod]
+        public void Indicates_Selected_Category()
+        {
+            // arrange 
+            Mock<IProductRepository> mock = getMockProductRepository();
+            NavController nav = new NavController(mock.Object);
+            string categoryToSelect = "Cat2";
+            // act
+            //string result = nav.Menu(categoryToSelect).ViewBag.SelectedCategory;
+            string result = nav.Menu(categoryToSelect).ViewBag.ToString();
+            // assert
+            Assert.AreEqual(result, categoryToSelect);
+        }
+       
+        private Mock<IProductRepository> getMockProductRepository()
+        {
+            Mock<IProductRepository> mock = new Mock<IProductRepository>();
+            mock.Setup(m => m.Products).Returns(new Product[]
+            {
+                new Product {ProductID = 1, Name = "P1", Category = "Cat1"},
+                new Product {ProductID = 2, Name = "P2", Category = "Cat1"},
+                new Product {ProductID = 3, Name = "P3", Category = "Cat2"},
+                new Product {ProductID = 4, Name = "P4", Category = "Cat2"},
+                new Product {ProductID = 5, Name = "P5", Category = "Cat3" }
+            });
+            return mock;
         }
     }
 }
