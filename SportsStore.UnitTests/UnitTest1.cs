@@ -117,8 +117,8 @@ namespace SportsStore.UnitTests
             NavController nav = new NavController(mock.Object);
             string categoryToSelect = "Cat2";
             // act
-            //string result = nav.Menu(categoryToSelect).ViewBag.SelectedCategory;
-            string result = nav.Menu(categoryToSelect).ViewBag.ToString();
+            string result = nav.Menu(categoryToSelect).ViewBag.SelectedCategory;
+            // string result = nav.Menu(categoryToSelect).ViewBag.ToString();
             // assert
             Assert.AreEqual(result, categoryToSelect);
         }
