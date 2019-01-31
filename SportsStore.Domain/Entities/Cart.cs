@@ -12,7 +12,7 @@ namespace SportsStore.Domain.Entities
             CartLine line = lineCollection.Where(p => p.Product.ProductID == product.ProductID).FirstOrDefault();
             if (line == null)
             {
-                lineCollection.Add(new CartLine { Product = product });
+                lineCollection.Add(new CartLine { Product = product, Quantity = quantity });
             }
             else
             {
