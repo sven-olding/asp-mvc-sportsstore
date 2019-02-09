@@ -8,5 +8,15 @@
     <div class="card-body">
         <p class="card-text">@Model.Description</p>
         <span class="float-right badge badge-primary">@Model.Price.ToString("c")</span>
+        <div style="clear: both">
+        </div>
+        @using (Html.BeginForm("AddToCart", "Cart"))
+        {
+        <div class="float-right mt-2">
+            @Html.HiddenFor(x => x.ProductID)
+            @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
+            <input type="submit" class="btn btn-success" value="Add to cart" />
+        </div>
+        }
     </div>
 </div>
