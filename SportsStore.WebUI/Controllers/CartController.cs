@@ -2,9 +2,7 @@
 using SportsStore.Domain.Entities;
 using SportsStore.WebUI.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace SportsStore.WebUI.Controllers
@@ -30,7 +28,7 @@ namespace SportsStore.WebUI.Controllers
         public RedirectToRouteResult AddToCart(int productId, string returnUrl)
         {
             Product product = repository.Products.FirstOrDefault(p => p.ProductID == productId);
-            if(product!=null)
+            if (product != null)
             {
                 GetCart().AddItem(product, 1);
             }
@@ -50,11 +48,11 @@ namespace SportsStore.WebUI.Controllers
         private Cart GetCart()
         {
             Cart cart = (Cart)Session["Cart"];
-            if(cart == null)
+            if (cart == null)
             {
                 cart = new Cart();
                 Session["Cart"] = cart;
             }
             return cart;
         }
-}
+    }
