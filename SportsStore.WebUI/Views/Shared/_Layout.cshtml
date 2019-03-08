@@ -6,10 +6,16 @@
     <link rel="stylesheet" href="~/Content/bootstrap.css" />
     <title>@ViewBag.Title</title>
 </head>
-<body>     
-    <nav class="navbar navbar-dark bg-dark">
+<body>
+    <nav class="navbar navbar-dark navbar-expand-lg bg-dark">
         <a class="navbar-brand" href="#">SPORTS STORE</a>
-        @Html.Action("Summary", "Cart")
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            @Html.Action("Summary", "Cart")
+        </div>
     </nav>
 
     <div class="container">
