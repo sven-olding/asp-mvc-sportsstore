@@ -7,8 +7,10 @@ namespace SportsStore.Domain.Entities
         [Required(ErrorMessage = "Please enter a name")]
         public string Name { get; set; }
         [Required(ErrorMessage = "Please enter the first address line")]
+        [Display(Name="Address line 1")]
         public string Line1 { get; set; }
 
+        [Display(Name="Address line 2")]
         public string Line2 { get; set; }
 
         [Required(ErrorMessage = "Please enter a city name")]
