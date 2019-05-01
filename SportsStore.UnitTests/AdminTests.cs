@@ -5,6 +5,7 @@ using SportsStore.Domain.Entities;
 using SportsStore.WebUI.Controllers;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web.Mvc;
 
 namespace SportsStore.UnitTests
 {
@@ -52,6 +53,39 @@ namespace SportsStore.UnitTests
             Product p = controller.Edit(4).ViewData.Model as Product;
             // assert
             Assert.IsNull(p);
+        }
+
+        [TestMethod]
+        public void Can_Save_Valid_Changes()
+        {
+            // arrange
+            Mock<IProductRepository> mock = getMockProductRepository();
+            AdminController controller = new AdminController(mock.Object);
+            Product product = new Product { Name = "Test" };
+
+            // act
+            ActionResult result = controller.Edit(product);
+
+            // assert
+            mock.Verify(m => m.SaveProduct(product));           
+            Assert.IsNotInstanceOfType(result, typeof(ViewResult));
+        }
+
+        [TestMethod]
+        public void Cannot_Save_Invalid_Changes()
+        {
+            // arrange
+            Mock<IProductRepository> mock = getMockProductRepository();
+            AdminController controller = new AdminController(mock.Object);
+            Product product = new Product { Name = "Test" };
+            controller.ModelState.AddModelError("error", "error");
+
+            // act
+            ActionResult result = controller.Edit(product);
+
+            // assert
+            mock.Verify(m => m.SaveProduct(It.IsAny<Product>()), Times.Never());
+            Assert.IsInstanceOfType(result, typeof(ViewResult));
         }
 
         private Mock<IProductRepository> getMockProductRepository()
