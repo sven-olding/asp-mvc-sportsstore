@@ -6,31 +6,32 @@
 
 <div class="card">
     <h3 class="card-header">Edit @Model.Name</h3>
-    <div class="card-body">
-        @using (Html.BeginForm())
-        {
+    @using (Html.BeginForm())
+    {
+        <div class="card-body">
             @Html.HiddenFor(m => m.ProductID)
-            foreach (var property in ViewData.ModelMetadata.Properties)
+            @foreach (var property in ViewData.ModelMetadata.Properties)
             {
-                if (property.PropertyName != "ProductID")
+            if (property.PropertyName != "ProductID")
+            {
+            <div class="form-group">
+                <label>@(property.DisplayName ?? property.PropertyName)</label>
+                @if (property.PropertyName == "Description")
                 {
-                    <div class="form-group">
-                        <label>@(property.DisplayName ?? property.PropertyName)</label>
-                        @if (property.PropertyName == "Description")
-                        {
-                            @Html.TextArea(property.PropertyName, null, new { @class = "form-control", rows = 5 })
-                        }
-                        else
-                        {
-                            @Html.TextBox(property.PropertyName, null, new { @class = "form-control" })
-                        }
-                    </div>
+                    @Html.TextArea(property.PropertyName, null, new { @class = "form-control", rows = 5 })
                 }
+                else
+                {
+                    @Html.TextBox(property.PropertyName, null, new { @class = "form-control" })
+                }
+            </div>
             }
-        }
-    </div>
-    <div class="card-footer text-center">
-        <input type="submit" value="Save" class="btn btn-primary" />
-        @Html.ActionLink("Cancel and return to list", "Index", null, new { @class = "btn" })
-    </div>
+            }
+
+        </div>
+        <div class="card-footer text-center">
+            <input type="submit" value="Save" class="btn btn-primary" />
+            @Html.ActionLink("Cancel and return to list", "Index", null, new { @class = "btn" })
+        </div>
+    }
 </div>
