@@ -24,9 +24,9 @@ namespace SportsStore.Domain.Concrete
                     dbEntry.Description = product.Description;
                     dbEntry.Category = product.Category;
                     dbEntry.Price = product.Price;
-                }
-                context.SaveChanges();
+                }              
             }
+            context.SaveChanges();
         }
     }
 }
