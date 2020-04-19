@@ -12,21 +12,33 @@ namespace SportsStore.Domain.Concrete
 
         public void SaveProduct(Product product)
         {
-            if(product.ProductID==0)
+            if (product.ProductID == 0)
             {
                 context.Products.Add(product);
-            } else
+            }
+            else
             {
                 Product dbEntry = context.Products.Find(product.ProductID);
-                if(dbEntry!=null)
+                if (dbEntry != null)
                 {
                     dbEntry.Name = product.Name;
                     dbEntry.Description = product.Description;
                     dbEntry.Category = product.Category;
                     dbEntry.Price = product.Price;
-                }              
+                }
             }
             context.SaveChanges();
+        }
+
+        public Product DeleteProduct(int productID)
+        {
+            Product p = context.Products.Find(productID);
+            if (p != null)
+            {
+                context.Products.Remove(p);
+                context.SaveChanges();
+            }
+            return p;
         }
     }
 }
