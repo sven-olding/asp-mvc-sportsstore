@@ -1,22 +1,29 @@
 ﻿@model SportsStore.Domain.Entities.Product
 
-<div class="card mt-3">
-    <div class="card-header">
-        @Model.Name
-    </div>
-
-    <div class="card-body">
-        <p class="card-text">@Model.Description</p>
-        <span class="float-right badge badge-primary">@Model.Price.ToString("c")</span>
-        <div style="clear: both">
+<div class="card mb-3">
+    <div class="row no-gutters">
+        <div class="col-md-4">
+            @if (Model.ImageData != null)
+            {
+                <img class="card-img" alt="Product image" src="@Url.Action("GetImage", "Product", new { Model.ProductID })" />
+            }
         </div>
-        @using (Html.BeginForm("AddToCart", "Cart"))
-        {
-        <div class="float-right mt-2">
-            @Html.HiddenFor(x => x.ProductID)
-            @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
-            <input type="submit" class="btn btn-success" value="Add to cart" />
+        <div class="col-md-8">
+            <div class="card-body">
+                <h5 class="card-title">@Model.Name</h5>
+                <p class="card-text">@Model.Description</p>
+                <span class="float-right badge badge-primary">@Model.Price.ToString("c")</span>
+                <div style="clear: both">
+                </div>
+                @using (Html.BeginForm("AddToCart", "Cart"))
+                {
+                    <div class="float-right mt-2">
+                        @Html.HiddenFor(x => x.ProductID)
+                        @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
+                        <input type="submit" class="btn btn-success" value="Add to cart" />
+                    </div>
+                }
+            </div>
         </div>
-        }
     </div>
 </div>

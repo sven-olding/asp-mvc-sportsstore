@@ -1,5 +1,6 @@
 ﻿using SportsStore.Domain.Abstract;
 using SportsStore.WebUI.Models;
+using System;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -35,6 +36,16 @@ namespace SportsStore.WebUI.Controllers
             };
 
             return View(model);
+        }
+
+        public FileContentResult getImage(int productId)
+        {
+            var product = productRepository.Products.FirstOrDefault(p => p.ProductID == productId);
+            if(product != null)
+            {
+                return File(product.ImageData, product.ImageMimeType);
+            }
+            return null;
         }
     }
 }
